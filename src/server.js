@@ -1,8 +1,11 @@
 const { ApolloServer, makeExecutableSchema } = require('apollo-server');
 const { mergeTypeDefs, mergeResolvers } = require('@graphql-toolkit/schema-merging');
+const dotenv = require('dotenv');
 const typeDefs = require('./schema/schema');
 const accountsGraphQL = require('./config/accounts-js-config');
 const resolvers = require('./resolvers/resolvers');
+
+dotenv.config();
 
 // Stitch our schema together with account-js schema
 const schema = makeExecutableSchema({
@@ -15,7 +18,6 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({ schema, context: accountsGraphQL.context });
 
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
+server.listen(process.env.PORT || 4000).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });

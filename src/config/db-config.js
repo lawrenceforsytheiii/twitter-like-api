@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const { Mongo } = require('@accounts/mongo');
+const dotenv = require('dotenv');
 
-// Connect mongoose to local mongodb database
-mongoose.connect('mongodb://localhost:27017/twitter-like-api', {
+dotenv.config();
+
+// Connect mongoose to mongodb database
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
