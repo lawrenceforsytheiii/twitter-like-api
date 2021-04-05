@@ -1,33 +1,17 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
 const mongoose = require('mongoose');
 const { Mongo } = require('@accounts/mongo');
+const { mergeTypeDefs, mergeResolvers } = require('@graphql-toolkit/schema-merging');
 const { AccountsServer } = require('@accounts/server');
 const { AccountsPassword } = require('@accounts/password');
-
-const accountsPassword = new AccountsPassword({
-  // You can customise the behavior of the password service by providing some options
-});
-
-const accountsServer = new AccountsServer(
-  {
-    // We link the mongo adapter we created in the previous step to the server
-    db: accountsMongo,
-    // Replace this value with a strong random secret
-    tokenSecret: 'my-super-random-secret',
-  },
-  {
-    // We pass a list of services to the server, in this example we just use the password service
-    password: accountsPassword,
-  }
-);
+const { AccountsModule } = require('@accounts/graphql-api');
 
 // We connect mongoose to our local mongodb database
-mongoose.connect('mongodb://localhost:27017/accounts-js-server', {
+mongoose.connect('mongodb://localhost:27017/twitter-like-api', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// We tell accounts-js to use the mongo connection
 const accountsMongo = new Mongo(mongoose.connection);
 
 const typeDefs = gql`
@@ -43,7 +27,32 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const accountsPassword = new AccountsPassword({});
+
+const accountsServer = new AccountsServer(
+  {
+    db: accountsMongo,
+    // Replace this value with a strong secret
+    tokenSecret: 'my-super-random-secret',
+  },
+  {
+    password: accountsPassword,
+  }
+);
+
+// We generate the accounts-js GraphQL module
+const accountsGraphQL = AccountsModule.forRoot({ accountsServer });
+
+// A new schema is created combining our schema and the accounts-js schema
+const schema = makeExecutableSchema({
+  typeDefs: mergeTypeDefs([typeDefs, accountsGraphQL.typeDefs]),
+  resolvers: mergeResolvers([accountsGraphQL.resolvers, resolvers]),
+  schemaDirectives: {
+    ...accountsGraphQL.schemaDirectives,
+  },
+});
+
+const server = new ApolloServer({ schema, context: accountsGraphQL.context });
 
 // The `listen` method launches a web server.
 server.listen().then(({ url }) => {
