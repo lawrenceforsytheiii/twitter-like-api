@@ -17,7 +17,7 @@ const accountsMongo = new Mongo(mongoose.connection);
 const typeDefs = gql`
   type Query {
     # This query will be protected so only authenticated users can access it
-    sensitiveInformation: String
+    sensitiveInformation: String @auth
   }
 `;
 
@@ -58,3 +58,4 @@ const server = new ApolloServer({ schema, context: accountsGraphQL.context });
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
+
