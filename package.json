@@ -4,6 +4,7 @@
   "description": "A minimal twitter-like GraphQL API with authentication and accounts management.",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server",
     "test": "test"
   },
   "repository": {
