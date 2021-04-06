@@ -1,9 +1,9 @@
 const { ApolloServer, makeExecutableSchema } = require('apollo-server');
 const { mergeTypeDefs, mergeResolvers } = require('@graphql-toolkit/schema-merging');
 const dotenv = require('dotenv');
-const typeDefs = require('./schema/schema');
+const typeDefs = require('./schemas/post-schema');
 const accountsGraphQL = require('./config/accounts-js-config');
-const resolvers = require('./resolvers/resolvers');
+const resolvers = require('./resolvers/post-resolvers');
 
 dotenv.config();
 
