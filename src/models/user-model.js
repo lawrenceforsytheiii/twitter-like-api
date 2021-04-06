@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-// Extend the account-js user model to include posts
 const userSchema = new mongoose.Schema({
   posts: [
     {
@@ -12,4 +11,4 @@ const userSchema = new mongoose.Schema({
 
 const user = mongoose.model('user', userSchema);
 
-module.exports = user;
+export default user;

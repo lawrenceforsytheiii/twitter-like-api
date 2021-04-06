@@ -1,7 +1,8 @@
-const { gql } = require('apollo-server');
+import { gql } from 'apollo-server';
 
+// Extend the account-js user model to include posts
 const userTypeDefs = gql`
-  type User {
+  extend type User {
     """
     A full list of posts created by the user
     """
@@ -9,4 +10,4 @@ const userTypeDefs = gql`
   }
 `;
 
-module.exports = userTypeDefs;
+export default userTypeDefs;

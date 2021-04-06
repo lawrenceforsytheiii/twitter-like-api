@@ -1,8 +1,8 @@
-const { AccountsServer } = require('@accounts/server');
-const { AccountsPassword } = require('@accounts/password');
-const { AccountsModule } = require('@accounts/graphql-api');
-const dotenv = require('dotenv');
-const accountsMongo = require('./db-config');
+import { AccountsServer } from '@accounts/server';
+import { AccountsPassword } from '@accounts/password';
+import { AccountsModule } from '@accounts/graphql-api';
+import dotenv from 'dotenv';
+import accountsMongo from './db-config';
 
 dotenv.config();
 
@@ -21,4 +21,4 @@ const accountsServer = new AccountsServer(
 // Generate the accounts-js GraphQL module
 const accountsGraphQL = AccountsModule.forRoot({ accountsServer });
 
-module.exports = accountsGraphQL;
+export default accountsGraphQL;

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const { Mongo } = require('@accounts/mongo');
-const dotenv = require('dotenv');
+import mongoose from 'mongoose';
+import { Mongo } from '@accounts/mongo';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -12,4 +12,4 @@ mongoose.connect(process.env.MONGODB_URL, {
 
 const accountsMongo = new Mongo(mongoose.connection);
 
-module.exports = accountsMongo;
+export default accountsMongo;

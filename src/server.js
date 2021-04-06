@@ -1,12 +1,13 @@
-const { ApolloServer, makeExecutableSchema } = require('apollo-server');
-const { mergeTypeDefs, mergeResolvers } = require('@graphql-toolkit/schema-merging');
-const dotenv = require('dotenv');
-const accountsGraphQL = require('./config/accounts-js-config');
-const userTypeDefs = require('./schemas/user-schema');
-const postTypeDefs = require('./schemas/post-schema');
-const userResolvers = require('./resolvers/user-resolvers');
-const postResolvers = require('./resolvers/post-resolvers');
+import { ApolloServer, makeExecutableSchema, } from 'apollo-server';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-toolkit/schema-merging';
+import dotenv from 'dotenv';
+import accountsGraphQL from './config/accounts-js-config';
+import userTypeDefs from './schemas/user-schema';
+import postTypeDefs from './schemas/post-schema';
+import userResolvers from './resolvers/user-resolvers';
+import postResolvers from './resolvers/post-resolvers';
 
+// Retreive environment variables
 dotenv.config();
 
 // Stitch our schema together with account-js schema
@@ -18,8 +19,15 @@ const schema = makeExecutableSchema({
   },
 });
 
-const server = new ApolloServer({ schema, context: accountsGraphQL.context });
+// Create new server instance
+const server = new ApolloServer({
+  schema,
+  context: async (req) => ({
+    ...await accountsGraphQL.context(req),
+  }),
+});
 
+// Initialize server to listen on environment variable PORT or 4000 by default
 server.listen(process.env.PORT || 4000).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });

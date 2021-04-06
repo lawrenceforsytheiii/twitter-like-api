@@ -4,8 +4,7 @@
   "description": "A minimal twitter-like GraphQL API with authentication and accounts management.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server",
-    "test": "test"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -29,15 +28,19 @@
   },
   "homepage": "https://github.com/lawrenceforsytheiii/twitter-like-api#readme",
   "dependencies": {
-    "@accounts/graphql-api": "^0.31.1",
-    "@accounts/mongo": "^0.31.1",
-    "@accounts/password": "^0.30.0",
-    "@accounts/server": "^0.19.0",
+    "@accounts/graphql-api": "^0.27.0",
+    "@accounts/mongo": "^0.27.0",
+    "@accounts/password": "^0.27.0",
+    "@accounts/server": "^0.27.0",
+    "@babel/core": "^7.13.14",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
     "@graphql-modules/core": "^0.7.17",
     "@graphql-toolkit/schema-merging": "^0.10.7",
-    "apollo-server": "^2.22.2",
+    "apollo-server": "^2.19.2",
     "dotenv": "^8.2.0",
     "graphql": "^15.5.0",
-    "mongoose": "^5.12.3"
+    "mongoose": "^5.11.14",
+    "nodemon": "^2.0.7"
   }
 }

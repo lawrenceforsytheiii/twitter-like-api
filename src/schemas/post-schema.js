@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+import { gql } from 'apollo-server';
 
 const postTypeDefs = gql`
   type Post {
@@ -35,4 +35,4 @@ const postTypeDefs = gql`
   }
 `;
 
-module.exports = postTypeDefs;
+export default postTypeDefs;
