@@ -1,16 +1,18 @@
 const { ApolloServer, makeExecutableSchema } = require('apollo-server');
 const { mergeTypeDefs, mergeResolvers } = require('@graphql-toolkit/schema-merging');
 const dotenv = require('dotenv');
-const typeDefs = require('./schemas/post-schema');
 const accountsGraphQL = require('./config/accounts-js-config');
-const resolvers = require('./resolvers/post-resolvers');
+const userTypeDefs = require('./schemas/user-schema');
+const postTypeDefs = require('./schemas/post-schema');
+const userResolvers = require('./resolvers/user-resolvers');
+const postResolvers = require('./resolvers/post-resolvers');
 
 dotenv.config();
 
 // Stitch our schema together with account-js schema
 const schema = makeExecutableSchema({
-  typeDefs: mergeTypeDefs([typeDefs, accountsGraphQL.typeDefs]),
-  resolvers: mergeResolvers([accountsGraphQL.resolvers, resolvers]),
+  typeDefs: mergeTypeDefs([accountsGraphQL.typeDefs, userTypeDefs, postTypeDefs]),
+  resolvers: mergeResolvers([accountsGraphQL.resolvers, userResolvers, postResolvers]),
   schemaDirectives: {
     ...accountsGraphQL.schemaDirectives,
   },

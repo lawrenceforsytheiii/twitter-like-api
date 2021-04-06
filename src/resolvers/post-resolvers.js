@@ -1,6 +1,6 @@
 const { AuthenticationError } = require('apollo-server');
 
-const resolvers = {
+const postResolvers = {
   Query: {
     getPost: async (parent, { id }, { models: { postModel }, me }, info) => {
       if (!me) {
@@ -34,4 +34,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+module.exports = postResolvers;

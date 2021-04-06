@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server');
 
-const typeDefs = gql`
+const postTypeDefs = gql`
   type Post {
     """
     Unique identifier for the post
@@ -35,4 +35,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+module.exports = postTypeDefs;
